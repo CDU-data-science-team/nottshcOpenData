@@ -1,0 +1,48 @@
+Package: nottshcPublic
+Title: Nottinghamshire Healthcare NHS Foundation Trust 
+Version: 0.1.1
+Authors@R: c(
+  person("Milan", "Wiedemann", email = "milan.wiedemann@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1991-282X")),
+  person("Lori", "Edwards Suarez", role = c("aut"), comment = c(ORCID = "0000-0002-3448-4344")),
+  person("Zoe", "Turner", role = c("aut"), comment = c(ORCID = "0000-0003-1033-9158")),
+  person("Ben", "di Mambro", role = c("aut"), comment = c(ORCID = "0000-0002-4886-3919")),
+  person("Chris", "Beeley", role = c("aut"), comment = c(ORCID = "0000-0003-2344-9962"))
+  )
+Description: Helper functions to connect to NOTTSHC SQL databases and tidy the data to facilitate futher analyses.
+    Vignettes describe the data and document the options that are available for tidying.D
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 3.2.0)
+Imports: 
+    DBI,
+    odbc,
+    honos,
+    lubridate,
+    dplyr,
+    tibble,
+    tidyr,
+    ggplot2,
+    purrr,
+    stringr,
+    dbplyr,
+    magrittr,
+    janitor,
+    digest,
+    data.table,
+    rstudioapi,
+    pointblank,
+    cli,
+    pool
+Remotes: 
+    CDU-data-science-team/honos
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 2.1.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
