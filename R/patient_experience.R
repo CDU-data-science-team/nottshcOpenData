@@ -23,7 +23,7 @@
 #' @section Last updated date:
 #' 2021-05-11
 #'
-#' @return
+#' @return SQL Table
 #' @export
 get_px_exp <- function(from = NULL,
                        to = NULL,
@@ -91,7 +91,7 @@ get_px_exp <- function(from = NULL,
 #' @param conn connection, that you can make with connect_mysql()- by default
 #' this will be done automatically
 #'
-#' @return
+#' @return SQL Table
 #' @export
 #'
 #' @section Last updated by:

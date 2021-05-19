@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of nottshcPublic is to ...
+This package demonstrates some of the ways we use R.
 
 ## Installation
 
-You can install the released version of nottshcPublic from [CRAN](https://CRAN.R-project.org) with:
+You can install the developmental version of nottshcPublic using:
 
 ``` r
 # install.packages("devtools")
@@ -31,21 +31,21 @@ devtools::install_github("CDU-data-science-team/nottshcPublic")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This example demonstrates how to (1) connect to the server, (2) access data on the database within R Studio, (3) tidy the data on the database, and (4) load the data into the global environment.
 
 ```{r}
 # Load public package
 library(nottshcPublic)
 ```
 
-### Connect to database
+### 1. Connect to database
 
 ```{r}
 # Create MySQL server connection
 conn_mysql_suce <- connect_mysql(database = "SUCE")
 ```
 
-### Get data
+### 2. Get data
 
 ```{r}
 # Get database (db) connection for specified date range 
@@ -56,7 +56,7 @@ db_px_data <- get_px_exp(from = "2020-01-01",
 db_px_data
 ```
 
-### Tidy data
+### 3. Tidy data
 
 ```{r}
 # Tidy the data and select some variables 
@@ -69,7 +69,7 @@ db_px_data_tidy <- db_px_data %>%
 db_px_data_tidy
 ```
 
-### Collect data
+### 4. Collect data
 
 In case it is preferred to collect the data from the MySQL server into R the `collect()` function from `dplyr` can be used to 
 
