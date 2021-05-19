@@ -36,7 +36,7 @@ Sys.setenv("PWD_MYSQL_SUCE" = "SECRET_PASSWORD")}
 
 }
 \description{
-You need to install this: https://dev.mysql.com/downloads/connector/odbc/
+MySQL needs to be installed, see https://dev.mysql.com/downloads/ for more information.
 }
 \section{Last updated by}{
 

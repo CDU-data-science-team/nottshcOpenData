@@ -37,8 +37,24 @@ library(nottshcPublic)
 ## basic example code
 ```
 
+### Connect to database
 
 ```{r}
-connect_mysql()
+conn_mysql_suce <- connect_mysql(database = "SUCE")
+```
+### Get data
+
+```{r}
+db_px_data <- get_px_exp(open_data = TRUE)
+db_px_data
+```
+
+### Tidy data
+
+```{r}
+db_px_data_tidy <- db_px_data %>% 
+  tidy_px_exp()
+
+db_px_data_tidy
 ```
 

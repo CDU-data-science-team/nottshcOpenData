@@ -31,7 +31,7 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
 
   if(!open_data){
 
-    check_server <- Sys.getenv("HOST_NAME_MYSQL_SUCE")
+    check_server <- ""
 
     if (check_server == "") {
 
@@ -42,7 +42,7 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
       server <- check_server
     }
 
-    check_UID <- Sys.getenv("UID_MYSQL_SUCE")
+    check_UID <- ""
 
     if (check_UID == "") {
 
@@ -53,7 +53,7 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
       UID <- check_UID
     }
 
-    check_PWD <- Sys.getenv("PWD_MYSQL_SUCE")
+    check_PWD <- ""
 
     if (check_PWD == "") {
 

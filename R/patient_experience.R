@@ -31,7 +31,7 @@ get_px_exp <- function(from = NULL,
                        to = NULL,
                        remove_demographics = TRUE,
                        conn = conn_mysql_suce,
-                       open_data = FALSE,
+                       open_data = TRUE,
                        remove_optout = TRUE) {
 
   # Create connection to table
@@ -60,25 +60,12 @@ get_px_exp <- function(from = NULL,
 
   } else {
 
-    db_data <- dplyr::tbl(conn, dbplyr::in_schema("SUCE", "Local"))
-
-    db_data <- dplyr::tbl(conn, dplyr::sql(
-      "SELECT Local.*, Teams.Inpatient, Teams.fftCategory, Teams.TeamN,
-      Directorates.DirT, Directorates.Division2
-      FROM Local INNER JOIN Teams
-      INNER JOIN Directorates ON Directorates.DirC = Teams.Directorate
-      WHERE Local.TeamC = Teams.TeamC
-      AND Local.Date >= Teams.date_from
-      AND Local.Date <= Teams.date_to
-      AND Local.Date >= Directorates.date_from
-      AND Local.Date <= Directorates.date_to")
-    )
+   stop("This option not availble in the public version version.", call. = FALSE)
 
     if (remove_demographics) {
-      db_data <- db_data %>%
-        dplyr::select(-c("Gender", "Ethnic", "Disability", "Religion",
-                         "Sexuality", "Age", "Relationship", "Pregnant",
-                         "Baby"))
+
+      stop("This option not availble in the public version version.", call. = FALSE)
+
     }
   }
 
