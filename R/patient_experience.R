@@ -1,10 +1,8 @@
 #' Get patient experience data from MySQL (in the cloud)
 #'
-#' Note that you will need to configure Sys.getenv("UID_MYSQL_SUCE"),
+#' @description Note that you will need to configure Sys.getenv("UID_MYSQL_SUCE"),
 #' and Sys.getenv("PWD_MYSQL_SUCE") or use open_data = TRUE to retrieve
 #' the public dataset
-#'
-#' @description TODO
 #'
 #' @param from String, specifying start date in "YYYY-MM-DD" format
 #' @param to String, specifying end date in "YYYY-MM-DD" format
@@ -14,9 +12,9 @@
 #' @param conn A database connection- by default done automatically
 #' @param open_data Logical, indicating whether you want to use the pre-cleaned
 #' open dataset that contains no demographic information or responses where the
-#' respodent opted out of sharing. Setting to FALSE requires an authenticated
+#' respondent opted out of sharing. Setting to FALSE requires an authenticated
 #' account
-#' @param remove_optout Logical, specifiying whether you want to remove people
+#' @param remove_optout Logical, specifying whether you want to remove people
 #' who opted out of sharing. This MUST be done if data is shared. The open dataset
 #' does not contain any opt outs, for this reason
 #'
@@ -147,46 +145,5 @@ tidy_px_exp <- function(data, conn = conn_mysql_suce) {
 
   # Return
   return(db_tidy)
-
-}
-
-# write collect function for fft score
-collect_fft <- function(data,
-                        filter_team = NULL,
-                        filter_division = NULL,
-                        return = c("tbl_sql", "tbl_df")) {
-
-  return <- match.arg(return)
-
-  data <- data %>%
-    dplyr::select(key, date, team_c, service, division2) %>%
-    dplyr::distinct()
-
-  if (!is.null(filter_team)) {
-
-    data <- data %>%
-      dplyr::filter(team_c %in% filter_team)
-
-  }
-
-  if (!is.null(filter_division)) {
-
-    data <- data %>%
-      dplyr::filter(division2 %in% filter_division)
-
-  }
-
-  # Return
-  if (return == "tbl_sql") {
-
-    return(data)
-
-  } else if (return == "tbl_df") {
-
-    df_data <- data %>%
-      dplyr::collect()
-
-    return(df_data)
-  }
 
 }

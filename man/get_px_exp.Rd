@@ -9,7 +9,7 @@ get_px_exp(
   to = NULL,
   remove_demographics = TRUE,
   conn = conn_mysql_suce,
-  open_data = FALSE,
+  open_data = TRUE,
   remove_optout = TRUE
 )
 }
@@ -26,10 +26,10 @@ or leave them in (FALSE).}
 
 \item{open_data}{Logical, indicating whether you want to use the pre-cleaned
 open dataset that contains no demographic information or responses where the
-respodent opted out of sharing. Setting to FALSE requires an authenticated
+respondent opted out of sharing. Setting to FALSE requires an authenticated
 account}
 
-\item{remove_optout}{Logical, specifiying whether you want to remove people
+\item{remove_optout}{Logical, specifying whether you want to remove people
 who opted out of sharing. This MUST be done if data is shared. The open dataset
 does not contain any opt outs, for this reason}
 }
@@ -37,9 +37,6 @@ does not contain any opt outs, for this reason}
 
 }
 \description{
-TODO
-}
-\details{
 Note that you will need to configure Sys.getenv("UID_MYSQL_SUCE"),
 and Sys.getenv("PWD_MYSQL_SUCE") or use open_data = TRUE to retrieve
 the public dataset

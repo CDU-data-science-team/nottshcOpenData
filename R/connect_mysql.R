@@ -35,7 +35,8 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
 
     if (check_server == "") {
 
-      message("No host name set, using default ...")
+      cli::cli_div(theme = list(span.emph = list(color = "green")))
+      cli::cli_alert_info("No host name set, using default server: {.emph {server}}")
 
     } else {
 
@@ -46,7 +47,7 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
 
     if (check_UID == "") {
 
-      message("No UID_MYSQL_SUCE set, defaulting to 'opendata' ...")
+      cli::cli_alert_info("No UID set, using default UID: {.emph {UID}}")
 
     } else {
 
@@ -57,7 +58,7 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
 
     if (check_PWD == "") {
 
-      message("No PWD_MYSQL_SUCE set, defaulting to 'letmein' ...")
+      cli::cli_alert_info("No PWD set, using default PWD: {.emph {PWD}}")
 
     } else {
 
