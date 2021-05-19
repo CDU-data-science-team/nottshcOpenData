@@ -1,5 +1,5 @@
 Package: nottshcPublic
-Title: Nottinghamshire Healthcare NHS Foundation Trust 
+Title: Public Patient Experiences from Nottinghamshire Healthcare NHS Foundation Trust (NOTTSHC)
 Version: 0.1.1
 Authors@R: c(
   person("Milan", "Wiedemann", email = "milan.wiedemann@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1991-282X")),
@@ -9,9 +9,8 @@ Authors@R: c(
   person("Chris", "Beeley", role = c("aut"), comment = c(ORCID = "0000-0003-2344-9962"))
   )
 Description: Helper functions to connect to NOTTSHC SQL databases and tidy the data to facilitate futher analyses.
-    Vignettes describe the data and document the options that are available for tidying.D
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+    Vignettes describe the data and document the options that are available for tidying.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

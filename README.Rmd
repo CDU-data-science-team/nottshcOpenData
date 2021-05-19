@@ -25,36 +25,58 @@ The goal of nottshcPublic is to ...
 You can install the released version of nottshcPublic from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("nottshcPublic")
+# install.packages("devtools")
+devtools::install_github("CDU-data-science-team/nottshcPublic")
 ```
 
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r}
+# Load public package
 library(nottshcPublic)
-## basic example code
 ```
 
 ### Connect to database
 
 ```{r}
+# Create MySQL server connection
 conn_mysql_suce <- connect_mysql(database = "SUCE")
 ```
+
 ### Get data
 
 ```{r}
-db_px_data <- get_px_exp(open_data = TRUE)
+# Get database (db) connection for specified date range 
+db_px_data <- get_px_exp(from = "2020-01-01",
+                         to = "2020-12-31")
+
+# Look at messy data
 db_px_data
 ```
 
 ### Tidy data
 
 ```{r}
+# Tidy the data and select some variables 
 db_px_data_tidy <- db_px_data %>% 
-  tidy_px_exp()
+  tidy_px_exp() %>% 
+  dplyr::select(key, comment_key, date, team_c, team_n, directorate, division,
+                category, subcategory, comment_type, comment_txt, crit)
 
+# Look at tidy data
 db_px_data_tidy
+```
+
+### Collect data
+
+In case it is preferred to collect the data from the MySQL server into R the `collect()` function from `dplyr` can be used to 
+
+```{r}
+# Collect tidy data
+df_px_data_tidy <- db_px_data_tidy %>% 
+  dplyr::collect()
+
 ```
 
