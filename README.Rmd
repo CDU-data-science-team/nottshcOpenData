@@ -22,11 +22,11 @@ This package demonstrates some of the ways we use R.
 
 ## Installation
 
-You can install the developmental version of nottshcPublic using:
+You can install the developmental version of `nottshcOpenData` using:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("CDU-data-science-team/nottshcPublic")
+devtools::install_github("CDU-data-science-team/nottshcOpenData")
 ```
 
 ## Example

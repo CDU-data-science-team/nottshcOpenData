@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# nottshcPublic
+# nottshcOpenData
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -10,11 +10,11 @@ This package demonstrates some of the ways we use R.
 
 ## Installation
 
-You can install the developmental version of nottshcPublic using:
+You can install the developmental version of `nottshcOpenData` using:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("CDU-data-science-team/nottshcPublic")
+devtools::install_github("CDU-data-science-team/nottshcOpenData")
 ```
 
 ## Example
@@ -25,16 +25,19 @@ and (4) load the data into the global environment.
 
 ``` r
 # Load public package
-library(nottshcPublic)
-#> This is nottshcPublic 0.1.1
-#> nottshcPublic is currently in development - please report any bugs or ideas at:
-#> https://github.com/CDU-data-science-team/nottshcPublic/issues
+library(nottshcOpenData)
 #> 
-#> -- Connecting to nottshc servers: ----------------------------------------------
+#> -- This is nottshcOpenData 0.2.0 -----------------------------------------------
+#> nottshcOpenData is currently in development, please report any bugs or ideas
+#> at:
+#> https://github.com/CDU-data-science-team/nottshcOpenData/issues
+#> 
+#> -- Connecting to NOTTSHC SUCE Server: --
+#> 
 #> i conn_mysql_suce <- connect_mysql(database = "SUCE")
 ```
 
-### Connect to database
+### 1. Connect to database
 
 ``` r
 # Create MySQL server connection
@@ -48,7 +51,7 @@ conn_mysql_suce <- connect_mysql(database = "SUCE")
 #> v Connecting to database: SUCE
 ```
 
-### Get data
+### 2. Get data
 
 ``` r
 # Get database (db) connection for specified date range 
@@ -78,7 +81,7 @@ db_px_data
 #> #   fftCategory <chr>, TeamN <chr>, DirT <chr>, Division2 <chr>
 ```
 
-### Tidy data
+### 3. Tidy data
 
 ``` r
 # Tidy the data and select some variables 
@@ -107,7 +110,7 @@ db_px_data_tidy
 #> #   comment_type <chr>, comment_txt <chr>, crit <dbl>
 ```
 
-### Collect data
+### 4. Collect data
 
 In case it is preferred to collect the data from the MySQL server into R
 the `collect()` function from `dplyr` can be used to
