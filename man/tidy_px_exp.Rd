@@ -13,7 +13,7 @@ tidy_px_exp(data, conn = conn_mysql_suce)
 this will be done automatically}
 }
 \value{
-
+SQL Table
 }
 \description{
 Tidy patient experience data

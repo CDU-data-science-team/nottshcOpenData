@@ -34,7 +34,7 @@ who opted out of sharing. This MUST be done if data is shared. The open dataset
 does not contain any opt outs, for this reason}
 }
 \value{
-
+SQL Table
 }
 \description{
 Note that you will need to configure Sys.getenv("UID_MYSQL_SUCE"),

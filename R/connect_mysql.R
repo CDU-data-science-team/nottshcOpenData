@@ -80,8 +80,8 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
     cli::cli_h1("Connecting to {driver}")
     cli::cli_alert_danger("Failed to connect to server: {.emph {server}}")
     cli::cli_alert_danger("Failed to connect to database: {.emph {database}}")
-    cli::cli_alert_info("Check your login credentials in the function arguments of in your environment variables.
-                         You may also need to install MySQL drivers https://dev.mysql.com/downloads/connector/odbc/, see description for more information.")
+    cli::cli_alert_info("Check your login credentials in the function arguments of in your environment variables.")
+    cli::cli_alert_info("You may also need to install MySQL drivers https://dev.mysql.com/downloads/connector/odbc/, see description for more information.")
     cli::cli_end()
 
   } else {
