@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">nottshcOpenData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -46,6 +46,18 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/sql-queries.html">Behind the scenes - Show SQL queries</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -79,43 +91,53 @@
 <p>You can install the developmental version of <code>nottshcOpenData</code> using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CDU-data-science-team/nottshcOpenData"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CDU-data-science-team/nottshcOpenData"</span><span class="op">)</span></code></pre></div>
+<p>You may also have to set up MySQL on your computer if it’s not installed yet, see <a href="https://db.rstudio.com/best-practices/drivers/" class="uri">https://db.rstudio.com/best-practices/drivers/</a>.</p>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>This example demonstrates how to (1) connect to the server, (2) access data on the database within R Studio, (3) tidy the data on the database, and (4) load the data into the global environment.</p>
+<p>This example demonstrates how to</p>
+<ol>
+<li>connect to the server using <code><a href="reference/connect_mysql.html">connect_mysql()</a></code>
+</li>
+<li>query data from the database within R Studio using <code><a href="reference/get_px_exp.html">get_px_exp()</a></code>
+</li>
+<li>tidy the data on the database using <code><a href="reference/tidy_px_exp.html">tidy_px_exp()</a></code>, and</li>
+<li>load the data into the global environment using <code><a href="https://dplyr.tidyverse.org/reference/compute.html">dplyr::collect()</a></code>
+</li>
+</ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load public package</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CDU-data-science-team/nottshcOpenData">nottshcOpenData</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; -- This is nottshcOpenData 0.2.0 -----------------------------------------------</span>
-<span class="co">#&gt; nottshcOpenData is currently in development, please report any bugs or ideas</span>
-<span class="co">#&gt; at:</span>
-<span class="co">#&gt; https://github.com/CDU-data-science-team/nottshcOpenData/issues</span>
+<span class="co">#&gt; ── This is nottshcOpenData 0.2.0 ───────────────────────────────────────────────</span>
+<span class="co">#&gt; ℹ nottshcOpenData is currently in development, please report any bugs or ideas at:</span>
+<span class="co">#&gt; ℹ https://github.com/CDU-data-science-team/nottshcOpenData/issues</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; -- Connecting to NOTTSHC SUCE Server: --</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; i conn_mysql_suce &lt;- connect_mysql(database = "SUCE")</span></code></pre></div>
+<span class="co">#&gt; ── Connecting to NOTTSHC SUCE Server: ──────────────────────────────────────────</span>
+<span class="co">#&gt; conn_mysql_suce &lt;- connect_mysql(database = "SUCE")</span></code></pre></div>
 <div id="1-connect-to-database" class="section level3">
 <h3 class="hasAnchor">
 <a href="#1-connect-to-database" class="anchor"></a>1. Connect to database</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Create MySQL server connection</span>
-<span class="va">conn_mysql_suce</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/connect_mysql.html">connect_mysql</a></span><span class="op">(</span>database <span class="op">=</span> <span class="st">"SUCE"</span><span class="op">)</span>
-<span class="co">#&gt; i No host name set, using default server: 109.74.194.173</span>
-<span class="co">#&gt; i No UID set, using default UID: opendata</span>
-<span class="co">#&gt; i No PWD set, using default PWD: letmein</span>
+<code class="sourceCode R"><span class="co"># Create MySQL connection</span>
+<span class="co"># Note, the driver may differ on your computer</span>
+<span class="va">conn_mysql_suce</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/connect_mysql.html">connect_mysql</a></span><span class="op">(</span>database <span class="op">=</span> <span class="st">"SUCE"</span>,
+                                 driver <span class="op">=</span> <span class="st">"MySQL ODBC 8.0 ANSI Driver"</span><span class="op">)</span>
+<span class="co">#&gt; ℹ No host name set, using default server: 109.74.194.173</span>
+<span class="co">#&gt; ℹ No UID set, using default UID: opendata</span>
+<span class="co">#&gt; ℹ No PWD set, using default PWD: letmein</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; -- Connecting to MySQL ODBC 8.0 Unicode Driver ---------------------------------</span>
-<span class="co">#&gt; v Connecting to server: 109.74.194.173</span>
-<span class="co">#&gt; v Connecting to database: SUCE</span></code></pre></div>
+<span class="co">#&gt; ── Connecting to MySQL ODBC 8.0 ANSI Driver ────────────────────────────────────</span>
+<span class="co">#&gt; ✓ Connecting to server: 109.74.194.173</span>
+<span class="co">#&gt; ✓ Connecting to database: SUCE</span></code></pre></div>
 </div>
 <div id="2-get-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#2-get-data" class="anchor"></a>2. Get data</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Get database (db) connection for specified date range </span>
+<code class="sourceCode R"><span class="co"># Get database (db_) connection for specified date range </span>
 <span class="va">db_px_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_px_exp.html">get_px_exp</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2020-01-01"</span>,
                          to <span class="op">=</span> <span class="st">"2020-12-31"</span><span class="op">)</span>
 
@@ -135,7 +157,7 @@
 <span class="co">#&gt;  8 340585 34210 2020-10-06 &lt;NA&gt;        47 newadult     0 &lt;NA&gt;             2</span>
 <span class="co">#&gt;  9 340586 30105 2020-10-07 &lt;NA&gt;        47 newadult     0 &lt;NA&gt;             4</span>
 <span class="co">#&gt; 10 340587 30105 2020-10-07 &lt;NA&gt;        47 newadult     0 &lt;NA&gt;             5</span>
-<span class="co">#&gt; # ... with more rows, and 19 more variables: Service &lt;dbl&gt;, Listening &lt;dbl&gt;,</span>
+<span class="co">#&gt; # … with more rows, and 19 more variables: Service &lt;dbl&gt;, Listening &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   Communication &lt;dbl&gt;, Respect &lt;dbl&gt;, InvCare &lt;dbl&gt;, Positive &lt;int&gt;,</span>
 <span class="co">#&gt; #   Improve &lt;chr&gt;, ImpCrit &lt;int&gt;, Imp_N1 &lt;chr&gt;, Imp_N2 &lt;chr&gt;, Best &lt;chr&gt;,</span>
 <span class="co">#&gt; #   BestCrit &lt;int&gt;, Best_N1 &lt;chr&gt;, Best_N2 &lt;chr&gt;, Inpatient &lt;int&gt;,</span>
@@ -145,7 +167,8 @@
 <h3 class="hasAnchor">
 <a href="#3-tidy-data" class="anchor"></a>3. Tidy data</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Tidy the data and select some variables </span>
+<code class="sourceCode R"><span class="co"># Tidy the data (on the database)</span>
+<span class="co"># Next select some variables for this example</span>
 <span class="va">db_px_data_tidy</span> <span class="op">&lt;-</span> <span class="va">db_px_data</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="reference/tidy_px_exp.html">tidy_px_exp</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">key</span>, <span class="va">comment_key</span>, <span class="va">date</span>, <span class="va">team_c</span>, <span class="va">team_n</span>, <span class="va">directorate</span>, <span class="va">division</span>,
@@ -157,23 +180,23 @@
 <span class="co">#&gt; # Database: mysql [opendata@:/SUCE]</span>
 <span class="co">#&gt;       key comment_key date       team_c team_n   directorate   division category</span>
 <span class="co">#&gt;     &lt;int&gt; &lt;chr&gt;       &lt;date&gt;      &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;   </span>
-<span class="co">#&gt;  1 341022 341022_imp  2020-10-06   2340 Unknown~ Children and~ Communi~ Access  </span>
-<span class="co">#&gt;  2 341199 341199_imp  2020-11-26    211 Family ~ Adult mental~ Local p~ Access  </span>
-<span class="co">#&gt;  3 341212 341212_imp  2020-11-26    728 Amber W~ Mental healt~ Local p~ Access  </span>
-<span class="co">#&gt;  4 341688 341688_imp  2020-11-28    738 Mansfie~ Mental healt~ Local p~ Access  </span>
-<span class="co">#&gt;  5 341844 341844_imp  2020-12-07   2340 Unknown~ Children and~ Communi~ Access  </span>
-<span class="co">#&gt;  6 341061 341061_imp  2020-10-21    729 Silver ~ Mental healt~ Local p~ Access  </span>
-<span class="co">#&gt;  7 341205 341205_imp  2020-11-26    262 EIP LMH~ Adult mental~ Local p~ Access  </span>
-<span class="co">#&gt;  8 340791 340791_best 2020-10-09  30801 PCPM     Rushcliffe    Communi~ Access  </span>
+<span class="co">#&gt;  1 341022 341022_imp  2020-10-06   2340 Unknown… Children and… Communi… Access  </span>
+<span class="co">#&gt;  2 341199 341199_imp  2020-11-26    211 Family … Adult mental… Local p… Access  </span>
+<span class="co">#&gt;  3 341212 341212_imp  2020-11-26    728 Amber W… Mental healt… Local p… Access  </span>
+<span class="co">#&gt;  4 341688 341688_imp  2020-11-28    738 Mansfie… Mental healt… Local p… Access  </span>
+<span class="co">#&gt;  5 341844 341844_imp  2020-12-07   2340 Unknown… Children and… Communi… Access  </span>
+<span class="co">#&gt;  6 341061 341061_imp  2020-10-21    729 Silver … Mental healt… Local p… Access  </span>
+<span class="co">#&gt;  7 341205 341205_imp  2020-11-26    262 EIP LMH… Adult mental… Local p… Access  </span>
+<span class="co">#&gt;  8 340791 340791_best 2020-10-09  30801 PCPM     Rushcliffe    Communi… Access  </span>
 <span class="co">#&gt;  9 341025 341025_best 2020-10-07   1900 &lt;NA&gt;     Unknown       Unknown  Access  </span>
-<span class="co">#&gt; 10 340603 340603_imp  2020-10-16  30105 CHD Cli~ Rushcliffe    Communi~ Access  </span>
-<span class="co">#&gt; # ... with more rows, and 4 more variables: subcategory &lt;chr&gt;,</span>
+<span class="co">#&gt; 10 340603 340603_imp  2020-10-16  30105 CHD Cli… Rushcliffe    Communi… Access  </span>
+<span class="co">#&gt; # … with more rows, and 4 more variables: subcategory &lt;chr&gt;,</span>
 <span class="co">#&gt; #   comment_type &lt;chr&gt;, comment_txt &lt;chr&gt;, crit &lt;dbl&gt;</span></code></pre></div>
 </div>
 <div id="4-collect-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#4-collect-data" class="anchor"></a>4. Collect data</h3>
-<p>In case it is preferred to collect the data from the MySQL server into R the <code>collect()</code> function from <code>dplyr</code> can be used to</p>
+<p>In case the data needs to be loaded from the MySQL database into the global environment you can use the <code>collect()</code> function from <code>dplyr</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Collect tidy data</span>
 <span class="va">df_px_data_tidy</span> <span class="op">&lt;-</span> <span class="va">db_px_data_tidy</span> <span class="op">%&gt;%</span> 

@@ -15,7 +15,8 @@ connect_mysql(
 )
 }
 \arguments{
-\item{driver}{String, default is set to "MySQL ODBC 8.0 Unicode Driver"}
+\item{driver}{String, default is set to "MySQL ODBC 8.0 Unicode Driver", on Mac this may have to be changed to "MySQL ODBC 8.0 ANSI Driver",
+In case these options don't work, it may help to check the installed database drivers on your computer using \code{odbc::odbcListDrivers()}.}
 
 \item{server}{String, specifying the server address. The default value is correct-
 an argument is provided in case we ever move the server}
@@ -36,15 +37,20 @@ Sys.setenv("PWD_MYSQL_SUCE" = "SECRET_PASSWORD")}
 
 }
 \description{
-MySQL needs to be installed, see https://dev.mysql.com/downloads/ for more information.
+You may need to set up ODBC Drivers on your computer prior to
+using this function, see https://db.rstudio.com/best-practices/drivers/.
+If you cant connect to the database and get lost in endless and frustrating
+errors with no solution, download the package praise \code{install.packages("praise")}
+and run the following function \code{praise::praise()} until you feel better again
+-- and file an issue.
 }
 \section{Last updated by}{
 
-Chris Beeley
+Milan Wiedemann
 }
 
 \section{Last updated date}{
 
-2021-04-03
+2021-07-18
 }
 
