@@ -19,9 +19,9 @@
 #' does not contain any opt outs, for this reason
 #'
 #' @section Last updated by:
-#' Chris Beeley
+#' Milan Wiedemann
 #' @section Last updated date:
-#' 2021-05-11
+#' 2021-07-18
 #'
 #' @return SQL Table
 #' @export
@@ -36,7 +36,9 @@ get_px_exp <- function(from = NULL,
 
   if (!exists("conn_mysql_suce")) {
 
-    assign("conn_mysql_suce", connect_mysql(database = "SUCE"), envir = globalenv())
+    assign("conn_mysql_suce",
+           connect_mysql(database = "SUCE"),
+           envir = globalenv())
 
   }
 
@@ -58,31 +60,26 @@ get_px_exp <- function(from = NULL,
 
   } else {
 
-   stop("This option not availble in the public version version.", call. = FALSE)
+   stop("This option not availble in the public version.",
+        call. = FALSE)
 
     if (remove_demographics) {
 
-      stop("This option not availble in the public version version.", call. = FALSE)
-
+      stop("This option not availble in the public version.",
+           call. = FALSE)
     }
   }
-
   # Filter date range
   if (!is.null(from)) {
-
     db_data <- db_data %>%
       dplyr::filter(Date >= from)
   }
-
   if (!is.null(to)) {
-
     db_data <- db_data %>%
       dplyr::filter(Date <= to)
   }
-
   # Return
-    return(db_data)
-
+  db_data
 }
 
 #' Tidy patient experience data
@@ -95,9 +92,9 @@ get_px_exp <- function(from = NULL,
 #' @export
 #'
 #' @section Last updated by:
-#' Chris Beeley
+#' Milan Wiedemann
 #' @section Last updated date:
-#' 2021-04-25
+#' 2021-07-18
 tidy_px_exp <- function(data, conn = conn_mysql_suce) {
 
   # get the codes db connection
@@ -117,7 +114,8 @@ tidy_px_exp <- function(data, conn = conn_mysql_suce) {
                         names_to = "comment_type",
                         values_to = "comment_txt") %>%
     tidyr::pivot_longer(cols = c(imp_n1, imp_n2, best_n1, best_n2),
-                        names_to = c("type_category", "type_num"), names_sep = "_",
+                        names_to = c("type_category", "type_num"),
+                        names_sep = "_",
                         values_to = "code") %>%
     dplyr::mutate(code = na_if(code, "XX")) %>%
     dplyr::filter((comment_type == "imp" & type_category == "imp") |
@@ -142,8 +140,6 @@ tidy_px_exp <- function(data, conn = conn_mysql_suce) {
                   any_of(c("optout", "gender", "ethnic", "disability",
                          "religion", "sexuality", "age", "relationship",
                          "pregnant", "baby")))
-
-  # Return
-  return(db_tidy)
-
+  # Return data
+  db_tidy
 }

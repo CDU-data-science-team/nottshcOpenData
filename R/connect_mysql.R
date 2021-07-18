@@ -1,8 +1,14 @@
 #' Connect to MySQL
 #'
-#' @description MySQL needs to be installed, see https://dev.mysql.com/downloads/ for more information.
+#' @description You may need to set up ODBC Drivers on your computer prior to
+#' using this function, see https://db.rstudio.com/best-practices/drivers/.
+#' If you cant connect to the database and get lost in endless and frustrating
+#' errors with no solution, download the package praise `install.packages("praise")`
+#' and run the following function `praise::praise()` until you feel better again
+#' -- and file an issue.
 #'
-#' @param driver String, default is set to "MySQL ODBC 8.0 Unicode Driver"
+#' @param driver String, default is set to "MySQL ODBC 8.0 Unicode Driver", on Mac this may have to be changed to "MySQL ODBC 8.0 ANSI Driver",
+#' In case these options don't work, it may help to check the installed database drivers on your computer using `odbc::odbcListDrivers()`.
 #' @param server String, specifying the server address. The default value is correct-
 #' an argument is provided in case we ever move the server
 #' @param UID String, specifying the 'user id'. Defaults to "opendata" which is a special
@@ -15,9 +21,9 @@
 #' @param database String, default is set to "SUCE"
 #'
 #' @section Last updated by:
-#' Chris Beeley
+#' Milan Wiedemann
 #' @section Last updated date:
-#' 2021-04-03
+#' 2021-07-18
 #'
 #' @return
 #' @export
@@ -31,6 +37,7 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
 
   if(!open_data){
 
+    # Assign empty string for this package, usually check Sys.getenv()
     check_server <- ""
 
     if (check_server == "") {
@@ -43,6 +50,7 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
       server <- check_server
     }
 
+    # Assign empty string for this package, usually check Sys.getenv()
     check_UID <- ""
 
     if (check_UID == "") {
@@ -67,12 +75,26 @@ connect_mysql <- function(driver    = "MySQL ODBC 8.0 Unicode Driver",
   }
 
   conn <- try(pool::dbPool(drv = odbc::odbc(),
-                            driver = driver,
-                            server = server,
-                            UID = UID,
-                            PWD = PWD,
-                            database = database,
-                            Port = Port))
+                           driver = driver,
+                           server = server,
+                           UID = UID,
+                           PWD = PWD,
+                           database = database,
+                           Port = Port))
+
+  if ("try-error" %in% class(conn)) {
+
+    # This isnt the best way to do it but going for quick implementation here
+    # Needs to be improved later
+    conn <- try(pool::dbPool(drv = odbc::odbc(),
+                             driver = "MySQL ODBC 8.0 ANSI Driver",
+                             server = server,
+                             UID = UID,
+                             PWD = PWD,
+                             database = database,
+                             Port = Port))
+
+  }
 
   if ("try-error" %in% class(conn)) {
 
