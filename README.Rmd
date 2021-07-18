@@ -29,9 +29,16 @@ You can install the developmental version of `nottshcOpenData` using:
 devtools::install_github("CDU-data-science-team/nottshcOpenData")
 ```
 
+You may also have to set up MySQL on your computer if it's not already installed, see https://db.rstudio.com/best-practices/drivers/ for more information.
+
 ## Example
 
-This example demonstrates how to (1) connect to the server, (2) access data on the database within R Studio, (3) tidy the data on the database, and (4) load the data into the global environment.
+This example demonstrates how the `nottshcOpenData` package can be used to 
+
+**1.** connect to the server using `connect_mysql()`
+**1.** query data from the database within R Studio using `get_px_exp()`
+**1.** tidy the data on the database using `tidy_px_exp()`, and
+**1.** load the data into the global environment using `dplyr::collect()`
 
 ```{r}
 # Load public package
@@ -41,14 +48,16 @@ library(nottshcOpenData)
 ### 1. Connect to database
 
 ```{r}
-# Create MySQL server connection
-conn_mysql_suce <- connect_mysql(database = "SUCE")
+# Create MySQL connection
+# Note, the driver name, here "MySQL ODBC 8.0 ANSI Driver", may differ on your computer
+conn_mysql_suce <- connect_mysql(database = "SUCE",
+                                 driver = "MySQL ODBC 8.0 ANSI Driver")
 ```
 
-### 2. Get data
+### 2. Query data
 
 ```{r}
-# Get database (db) connection for specified date range 
+# Get database (db_) connection for specified date range 
 db_px_data <- get_px_exp(from = "2020-01-01",
                          to = "2020-12-31")
 
@@ -59,7 +68,8 @@ db_px_data
 ### 3. Tidy data
 
 ```{r}
-# Tidy the data and select some variables 
+# Tidy the data (on the database)
+# Next select some variables for this example
 db_px_data_tidy <- db_px_data %>% 
   tidy_px_exp() %>% 
   dplyr::select(key, comment_key, date, team_c, team_n, directorate, division,
@@ -71,7 +81,7 @@ db_px_data_tidy
 
 ### 4. Collect data
 
-In case it is preferred to collect the data from the MySQL server into R the `collect()` function from `dplyr` can be used to 
+In case the data needs to be loaded from the MySQL database into the global environment you can use the `collect()` function from the `dplyr` package.
 
 ```{r}
 # Collect tidy data
