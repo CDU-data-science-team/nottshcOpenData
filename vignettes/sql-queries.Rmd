@@ -1,0 +1,44 @@
+---
+title: "Behind the scenes - Show SQL queries"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sql-queries}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nottshcOpenData)
+
+# Create MySQL connection
+# Note, the driver name, here "MySQL ODBC 8.0 ANSI Driver", may differ on your computer
+conn_mysql_suce <- connect_mysql(database = "SUCE",
+                                 driver = "MySQL ODBC 8.0 ANSI Driver")
+```
+
+
+### 1. SQL code used to query data
+
+```{r}
+# Get database (db_) connection for specified date range 
+get_px_exp(from = "2020-01-01",
+           to = "2020-12-31") %>% 
+  dplyr::show_query()
+
+```
+
+### 2. SQL code used to tidy data
+
+```{r}
+get_px_exp(from = "2020-01-01",
+           to = "2020-12-31") %>% 
+  tidy_px_exp() %>% 
+  dplyr::show_query()
+```
