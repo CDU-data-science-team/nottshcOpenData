@@ -13,8 +13,8 @@ This package demonstrates some of the ways we use R.
 You can install the developmental version of `nottshcOpenData` using:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("CDU-data-science-team/nottshcOpenData")
+# install.packages("remotes")
+remotes::install_github("CDU-data-science-team/nottshcOpenData")
 ```
 
 You may also have to set up MySQL on your computer if it’s not installed
